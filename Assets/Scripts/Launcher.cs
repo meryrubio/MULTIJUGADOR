@@ -3,10 +3,19 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEditor.PackageManager;
 
+
 namespace Com.MyCompany.MyGame
 {
     public class Launcher : MonoBehaviourPunCallbacks
     {
+        public GameObject controlPanel, loadingPanel;
+
+        //modificaremos el número máximo de jugadores por sala y lo expondremos en el inspector para poder configurarlo sin tocar el propio código.
+        // lo mismo para el número máximo de jugadores por sala.
+        [Tooltip("The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created")]
+        [SerializeField]
+        private byte maxPlayersPerRoom = 4;
+
         //las regiones nos permiten agrupar secciones del código para que sea más fácil de leer y navegar.
 
         #region Private Serializable Fields
@@ -33,7 +42,8 @@ namespace Com.MyCompany.MyGame
 
         void Start()
         {
-            Connect();
+            loadingPanel.SetActive(false);//nada mas empezamos queremos que salgan los botones y luego el de carga
+            controlPanel.SetActive(true);
         }
 
         #endregion
@@ -45,6 +55,9 @@ namespace Com.MyCompany.MyGame
         // - Si ya está conectado, intentamos entrar en una sala aleatoria
         // - Si aún no está conectado, Conectar esta instancia de aplicación a Photon Cloud 
         {
+            loadingPanel.SetActive(true ); //queremos que se active el loading y ya los botones se escondan
+            controlPanel.SetActive(false );
+
             if (PhotonNetwork.IsConnected) //comprobamos si estamos conectados o no, nos unimos si lo estamos , sino iniciamos la conexión con el servidor.
             {
                 PhotonNetwork.JoinRandomRoom();
@@ -65,6 +78,22 @@ namespace Com.MyCompany.MyGame
         public override void OnConnectedToMaster()//cuando te conectas al servidor
         {
             Debug.Log("PUN Basics Tutorial/Launcher: OnConnectedToMaster() was called by PUN");
+
+            PhotonNetwork.JoinRandomRoom();//necesitamos ser informados si el intento de unirnos a una sala aleatoria falló,
+                                           //en cuyo caso necesitamos crear una sala, así que implementamos el callback PUN OnJoinRandomFailed() 
+        }
+
+        public override void OnJoinRandomFailed(short returnCode, string message)//creamos una sala usando PhotonNetwork.CreateRoom() y,
+                                                                                 //el callback PUN relacionado OnJoinedRoom() que informará a tu script cuando efectivamente nos unamos a una sala
+        {
+            Debug.Log("PUN Basics Tutorial/Launcher:OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
+
+            PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });//anadimos el numero max de personas a la sala que creamos
+        }
+
+        public override void OnJoinedRoom()
+        {
+            Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
         }
 
         public override void OnDisconnected(DisconnectCause cause)//cuando te desconectas

@@ -26,7 +26,7 @@ public class PlayerMovement_RB : MonoBehaviourPun
             PlayerManager.LocalPlayerInstance = this.gameObject;
         }
         // marcamos como no destruir al cargar para que la instancia sobreviva a la sincronización de niveles, dando así una experiencia fluida cuando se cargan los niveles.
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(this.gameObject);//**************************
     }
 
     // Start is called before the first frame update

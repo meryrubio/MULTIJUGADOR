@@ -15,6 +15,19 @@ public class PlayerMovement_RB : MonoBehaviourPun
 
 
 
+    [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
+    public static GameObject LocalPlayerInstance;
+
+    private void Awake()
+    {
+        // usado en GameManager.cs: mantenemos un registro de la instancia localPlayer para evitar la instanciación cuando los niveles están sincronizados
+        if (photonView.IsMine)
+        {
+            PlayerManager.LocalPlayerInstance = this.gameObject;
+        }
+        // marcamos como no destruir al cargar para que la instancia sobreviva a la sincronización de niveles, dando así una experiencia fluida cuando se cargan los niveles.
+        DontDestroyOnLoad(this.gameObject);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +46,11 @@ public class PlayerMovement_RB : MonoBehaviourPun
         {
             Debug.LogError("<Color=Red><a>Missing</a></Color> CameraWork Component on playerPrefab.", this);
         }
+
+#if UNITY_5_4_OR_NEWER
+        // Unity 5.4 tiene una nueva gestión de escenas. registre un método para llamar a CalledOnLevelWasLoaded.
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+#endif
 
         /* gravityscale = -Mathf.Abs(gravityscale);*/ //la gravedad tinene que ser negativa para que vaya para abajo, entonces se multiplica el menos por el valosr absoluto de gravityscale.
     }
@@ -115,4 +133,42 @@ public class PlayerMovement_RB : MonoBehaviourPun
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(new Vector3(transform.position.x, transform.position.y - transform.localScale.y / 2, transform.position.z), sphereRadius);
     }
+
+
+    #region MonoBehaviour CallBacks
+
+
+#if !UNITY_5_4_OR_NEWER
+
+void OnLevelWasLoaded(int level)
+{
+    this.CalledOnLevelWasLoaded(level);
+}
+#endif
+
+    void CalledOnLevelWasLoaded(int level)
+    {
+        // comprueba si estamos fuera de la Arena y si es el caso, haz spawn alrededor del centro de la arena en una zona segura
+        if (!Physics.Raycast(transform.position, -Vector3.up, 5f))
+        {
+            transform.position = new Vector3(0f, 5f, 0f);
+        }
+    }
+
+    #endregion
+
+#if UNITY_5_4_OR_NEWER
+    void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode loadingMode)
+    {
+        this.CalledOnLevelWasLoaded(scene.buildIndex);
+    }
+#endif
+
+#if UNITY_5_4_OR_NEWER
+    public void OnDisable()
+    {
+        // Always call the base to remove callbacks
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+#endif
 }

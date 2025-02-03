@@ -6,11 +6,32 @@ using UnityEngine.SceneManagement;
 
 using Photon.Pun;
 using Photon.Realtime;
+using Photon.Pun.Demo.PunBasics;
 
 namespace Com.MyCompany.MyGame
 {
     public class GameManager : MonoBehaviourPunCallbacks
     {
+        [Tooltip("The prefab to use for representing the player")]
+        public GameObject playerPrefab;
+
+        private void Start()
+        {
+            if (PlayerManager.LocalPlayerInstance == null)//Con estas modificaciones, podemos implementar la comprobación para instanciar sólo si es necesario
+                                                          //dentro del script GameManager.
+            {
+                Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
+                // estamos en una habitación. genera un personaje para el jugador local. se sincroniza usando PhotonNetwork.Instantiate
+                PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+            }
+            else
+            {
+                Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
+            }
+
+        }
+
+
         #region Photon Callbacks
 
         public override void OnLeftRoom()//Llamada cuando el jugador local abandona la sala. 
@@ -72,6 +93,8 @@ namespace Com.MyCompany.MyGame
             Debug.LogFormat("PhotonNetwork : Loading Level : {0}", PhotonNetwork.CurrentRoom.PlayerCount);
             PhotonNetwork.LoadLevel("Room for " + PhotonNetwork.CurrentRoom.PlayerCount);//Usamos PhotonNetwork.LoadLevel() para cargar el nivel que queremos
         }
+
+
 
         #endregion
     }

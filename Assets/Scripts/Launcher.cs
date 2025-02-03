@@ -1,8 +1,6 @@
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using UnityEditor.PackageManager;
-
 
 namespace Com.MyCompany.MyGame
 {
@@ -48,6 +46,7 @@ namespace Com.MyCompany.MyGame
             controlPanel.SetActive(true);
         }
 
+
         #endregion
 
 
@@ -76,7 +75,7 @@ namespace Com.MyCompany.MyGame
 
         #endregion
 
-        #region MonoBehaviourPunCallbacks Callbacks
+        #region MonoBehaviourPunCallbacks
 
         public override void OnConnectedToMaster()//cuando te conectas al servidor
         {

@@ -7,27 +7,71 @@ using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 using Photon.Pun.Demo.PunBasics;
+using UnityEngine.TextCore.Text;
 
 namespace Com.MyCompany.MyGame
 {
+
+    [System.Serializable]
+    public enum Characters //tipo enumerado, le puede poner nombres a los numeros: el 0=juandi, 1= mery
+    {
+        JUANDI, MERY
+    }
     public class GameManager : MonoBehaviourPunCallbacks
     {
-        [Tooltip("The prefab to use for representing the player")]
-        public GameObject playerPrefab;
 
-        private void Start()
+        public static GameManager instance;
+
+
+        [Tooltip("The prefab to use for representing the player")]
+        public GameObject[] playerPrefab;
+
+        //[HideInInspector]
+        public Characters characterType; //variable para los personajes, sea posible elegir el tipo de personaje
+
+        private void Awake()
+        {
+            if (!instance)// si instance no tiene info
+            {
+                instance = this; //si isma llega a la fiesta y ve que no hay nadie guapo isma se queda en la fiesta / instance se asigna a este objeto
+                DontDestroyOnLoad(gameObject);// para que no se destruya en la carga de escenas
+            }
+            else // si ya hay alguin mas guapo antes que isma / si instance tiene info
+            {
+                Destroy(gameObject); // isma se va / se destruye el gameobject, para que no haya dos o mas gms en el juego
+            }
+        }
+
+        public void InstancePlayer()
         {
             if (PlayerManager.LocalPlayerInstance == null)//Con estas modificaciones, podemos implementar la comprobación para instanciar sólo si es necesario
                                                           //dentro del script GameManager.
             {
                 Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
                 // estamos en una habitación. genera un personaje para el jugador local. se sincroniza usando PhotonNetwork.Instantiate
-                PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+                StartCoroutine(DelayInstance());
             }
             else
             {
                 Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
             }
+
+        }
+
+        IEnumerator DelayInstance()// esperar segundo para que el segundo cargue y pueda ver
+        {
+            yield return new WaitForSeconds(0.3f);
+
+            switch(characterType)
+            {
+                case Characters.JUANDI:
+                    PhotonNetwork.Instantiate(this.playerPrefab[0].name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+                    break;
+                case Characters.MERY:
+                    PhotonNetwork.Instantiate(this.playerPrefab[1].name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+                    break;
+            }
+
 
         }
 
@@ -97,5 +141,20 @@ namespace Com.MyCompany.MyGame
 
 
         #endregion
+
+
+        public void LoadScene(string sceneName)
+        {
+            SceneManager.LoadScene(sceneName);
+            /* AudioManager.instance.ClearAudios();*/ // oye, audioManager, limpia todos los sonidos que estan sonando
+        }
+
+
+        public void ExitGame()
+        {
+            Debug.Log("EXIT!!");
+            Application.Quit();// cierra la aplicación
+        }
     }
+
 }

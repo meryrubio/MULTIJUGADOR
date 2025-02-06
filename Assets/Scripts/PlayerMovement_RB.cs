@@ -58,9 +58,14 @@ public class PlayerMovement_RB : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
+        if(!photonView.IsMine)
+        {
+            return;
+        }
+
         //en edit - project settings - input manager - axes - estan todas las que exitsen y se pueden modificar y añadir
-        X = Input.GetAxisRaw("Horizontal"); //Raw = crudo, es para que no tenga ningún tipo de suavizado (joystick)
-        Z = Input.GetAxisRaw("Vertical");
+        X = Input.GetAxis("Horizontal"); //Raw = crudo, es para que no tenga ningún tipo de suavizado (joystick)
+        Z = Input.GetAxis("Vertical");
         mouseX = Input.GetAxis("Mouse X"); //mouse para la rotación / la sensibilidad del raton ya va asociada al input
 
         //jump
@@ -69,7 +74,7 @@ public class PlayerMovement_RB : MonoBehaviourPun
             jumpPressed = true;
         }
 
-        RotatePlayer();
+        //RotatePlayer();
     }
 
     void RotatePlayer()

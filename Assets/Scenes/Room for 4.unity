@@ -992,7 +992,7 @@ GameObject:
   - component: {fileID: 1951381306}
   - component: {fileID: 1951381305}
   - component: {fileID: 1951381304}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}

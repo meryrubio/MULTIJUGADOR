@@ -1,8 +1,9 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : MonoBehaviourPun
 {
     public float speed;
     public float maxTime;
@@ -23,7 +24,8 @@ public class Bullet : MonoBehaviour
         if (currentTime > maxTime)
         {
             currentTime = 0;
-            gameObject.SetActive(false);//se devuelve a la pool
+            //gameObject.SetActive(false);//se devuelve a la pool
+            PhotonNetwork.Destroy(gameObject);
         }
     }
     private void FixedUpdate()

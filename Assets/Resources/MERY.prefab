@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8969997679887331780}
   - component: {fileID: 8114664912811309885}
   - component: {fileID: 5156805216579729215}
+  - component: {fileID: -7719425338489974589}
   m_Layer: 0
   m_Name: MERY
   m_TagString: Untagged
@@ -192,3 +193,16 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &-7719425338489974589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5661411820815069440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c208eae50fb65364c8587354ced4a0a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 6438187857425725525, guid: fbe2921e2db8129449e150343d81eb4d, type: 3}

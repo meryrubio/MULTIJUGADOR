@@ -1,12 +1,12 @@
-using Photon.Pun.Demo.Asteroids;
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShootBullet : MonoBehaviour
+public class ShootBullet : MonoBehaviourPun
 {
 
-    public GameObjectPool bulletPool;
+    public GameObject bullet;
 
     // Start is called before the first frame update
     void Start()
@@ -19,7 +19,7 @@ public class ShootBullet : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))//funcione en mando y raton
         {
-            GameObject obj = bulletPool.GimmeInactiveGameObject();
+            GameObject obj = PhotonNetwork.Instantiate(bullet.name, transform.position, Quaternion.identity);
 
             if (obj != null)
             {

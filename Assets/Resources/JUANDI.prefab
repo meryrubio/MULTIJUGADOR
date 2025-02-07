@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5091808720387753073}
   - component: {fileID: 7543480434630211117}
   - component: {fileID: 985022887623222044}
+  - component: {fileID: 4343892113156230349}
   m_Layer: 0
   m_Name: JUANDI
   m_TagString: Untagged
@@ -192,3 +193,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &4343892113156230349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3049551339927538141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b30c9dd744d09fa478c781f2681e9924, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bomb: {fileID: 5362423772719902511, guid: 92cba8192404ab2419cf2d53d70b5967, type: 3}
+  launchForce: 10

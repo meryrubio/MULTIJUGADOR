@@ -1,38 +1,51 @@
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.ShaderData;
 
 public class Bomb : MonoBehaviourPun
 {
-    public float speed;
-    private Rigidbody _rb;
-    public float explosionRadius = 5f; // Radio de la explosión
+ 
+    public float explosionRadius = 5f; // Radio de explosión
     public float explosionDamage = 50f; // Daño de la explosión
-    public float countdown = 3f; // Tiempo antes de explotar
-    public float launchForce = 10f; // Fuerza de lanzamiento
-    public Vector3 launchDirection = new Vector3(1, 1, 0); // Dirección de lanzamiento
+    /*public GameObject explosionEffect;*/ // Prefab de efecto de explosión
 
-
-    private float countdownTimer;
-
-
-    // Start is called before the first frame update
-    void Start()
+    private void OnCollisionEnter(Collision collision)
     {
-        _rb = GetComponent<Rigidbody>();
-
+        Explode();
     }
 
-    // Update is called once per frame
-    void Update()
+    void Explode()
     {
-        countdownTimer -= Time.deltaTime;
+        // Instanciar el efecto de explosión
+        //if (explosionEffect != null)
+        //{
+        //    Instantiate(explosionEffect, transform.position, transform.rotation);
+        //}
 
-        if (countdownTimer <= 0f)
+        // Detectar objetos en el área de explosión
+        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
+        foreach (Collider collider in colliders)
         {
-            Explode();
+            // Suponiendo que los objetos tienen un componente "Health" que maneja el daño
+            Health health = collider.GetComponent<Health>();
+            if (health != null)
+            {
+                health.TakeDamage(explosionDamage);
+            }
         }
+
+        // Destruir la bomba después de la explosión
+        PhotonNetwork.Destroy(gameObject);
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        // Visualizar el área de explosión en el editor
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, explosionRadius);
     }
 }

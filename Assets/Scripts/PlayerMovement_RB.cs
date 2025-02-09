@@ -3,6 +3,8 @@ using Photon.Pun.Demo.PunBasics;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class PlayerMovement_RB : MonoBehaviourPun
 {
@@ -12,6 +14,8 @@ public class PlayerMovement_RB : MonoBehaviourPun
     private bool jumpPressed;
     public string GroundName;
     private CameraWork _cameraWork;
+
+    public TextMeshProUGUI playerNameText; //objeto de texto
 
 
 
@@ -34,6 +38,13 @@ public class PlayerMovement_RB : MonoBehaviourPun
     {
         rb = GetComponent<Rigidbody>();
         CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
+
+        // el nombre del jugador se muestre al inicio
+        if (playerNameText != null)
+        {
+            playerNameText.text = PhotonNetwork.NickName;
+        }
+
 
         if (_cameraWork != null)
         {
@@ -75,6 +86,9 @@ public class PlayerMovement_RB : MonoBehaviourPun
         }
 
         //RotatePlayer();
+
+        playerNameText.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 2, 0)); // Ajusta el nombre del jugador???
+
     }
 
     void RotatePlayer()

@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SocialPlatforms.Impl;
+using Photon.Pun.Demo.Cockpit;
 
 public class PlayerMovement_RB : MonoBehaviourPun
 {
@@ -14,8 +16,6 @@ public class PlayerMovement_RB : MonoBehaviourPun
     private bool jumpPressed;
     public string GroundName;
     private CameraWork _cameraWork;
-
-    public TextMeshProUGUI playerNameText; //objeto de texto
 
 
 
@@ -38,12 +38,6 @@ public class PlayerMovement_RB : MonoBehaviourPun
     {
         rb = GetComponent<Rigidbody>();
         CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
-
-        // el nombre del jugador se muestre al inicio
-        if (playerNameText != null)
-        {
-            playerNameText.text = PhotonNetwork.NickName;
-        }
 
 
         if (_cameraWork != null)
@@ -87,7 +81,7 @@ public class PlayerMovement_RB : MonoBehaviourPun
 
         //RotatePlayer();
 
-        playerNameText.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 2, 0)); // Ajusta el nombre del jugador???
+        
 
     }
 
@@ -190,4 +184,33 @@ void OnLevelWasLoaded(int level)
         UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 #endif
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!photonView.IsMine)
+            return;
+
+        if (other.GetComponent<Bullet>())
+        {
+            Health health = gameObject.GetComponent<Health>();
+            if (health != null)
+            {
+                health.TakeDamage(15f); // Reduce 10 puntos de vida al jugador
+
+            }
+        }
+
+        if (other.GetComponent<Bomb>())
+        {
+            Health health = gameObject.GetComponent<Health>();
+            if (health != null)
+            {
+                health.TakeDamage(25f); // Reduce 10 puntos de vida al jugador
+
+            }
+        }
+    }
+
 }
+

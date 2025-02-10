@@ -17,6 +17,9 @@ public class ShootBullet : MonoBehaviourPun
     // Update is called once per frame
     void Update()
     {
+        if (!photonView.IsMine)
+            return;
+
         if (Input.GetButtonDown("Fire1"))//funcione en mando y raton
         {
             GameObject obj = PhotonNetwork.Instantiate(bullet.name, transform.position, Quaternion.identity);
@@ -24,7 +27,8 @@ public class ShootBullet : MonoBehaviourPun
             if (obj != null)
             {
                 obj.SetActive(true);//quitarlo del estuche, ya no esta disponible en la pool
-                obj.transform.position = transform.position;
+                obj.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z +5);
+                
                 obj.GetComponent<Bullet>().SetDirection(transform.forward);
             }
         }

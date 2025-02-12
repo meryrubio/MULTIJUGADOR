@@ -15,6 +15,8 @@ public class Bomb : MonoBehaviourPun
     private float currentTime;
     private Rigidbody _rb;
     private Vector3 _launchDirection;
+    public GameObject explosionEffect; // Asigna el prefab de explosión en el inspector
+
 
     // Start is called before the first frame update
     void Start()
@@ -47,11 +49,11 @@ public class Bomb : MonoBehaviourPun
 
     void Explode()
     {
-        ////Instanciar el efecto de explosión
-        //if (explosionEffect != null)
-        //{
-        //    Instantiate(explosionEffect, transform.position, transform.rotation);
-        //}
+        //Instanciar el efecto de explosión
+        if (explosionEffect != null)
+        {
+            Instantiate(explosionEffect, transform.position, transform.rotation);
+        }
 
         // Detectar objetos en el área de explosión
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);

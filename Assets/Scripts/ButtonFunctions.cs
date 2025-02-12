@@ -19,4 +19,9 @@ public class ButtonFunctions : MonoBehaviour
     {
         GameManager.instance.LoadScene(sceneName);
     }
+
+    public void AudioClip(AudioClip buttonaudio)
+    {
+        AudioSource audiosource = AudioManager.instance.PlayAudio(buttonaudio, "button");
+    }
 }

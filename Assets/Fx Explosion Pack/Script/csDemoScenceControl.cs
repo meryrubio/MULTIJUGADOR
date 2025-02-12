@@ -5,7 +5,7 @@ public class csDemoScenceControl : MonoBehaviour {
 
     public GameObject[] AllEffect;
     int i;
-    public GUIText Text;
+    public UnityEngine.UI.Text Text;
     public Transform mg;
     GameObject MakedObject;
 

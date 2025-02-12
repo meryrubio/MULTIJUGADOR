@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Health : MonoBehaviourPun, IPunObservable
 {
@@ -49,6 +50,9 @@ public class Health : MonoBehaviourPun, IPunObservable
 
         // Por ejemplo, puedes desactivar el objeto del jugador
         gameObject.SetActive(false);
+
+        SceneManager.LoadScene("Victory");
+
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

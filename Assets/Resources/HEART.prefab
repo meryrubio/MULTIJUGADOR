@@ -196,3 +196,4 @@ MonoBehaviour:
   explosionRadius: 5
   explosionDamage: 50
   maxTime: 10
+  explosionEffect: {fileID: 100004, guid: 6e8c7c425e5bc374daf95a774767b1e3, type: 3}

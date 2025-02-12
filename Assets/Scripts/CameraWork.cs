@@ -15,7 +15,7 @@ namespace Photon.Pun.Demo.PunBasics
     /// <summary>
     /// Camera work. Follow a target
     /// </summary>
-    public class CameraWork : MonoBehaviour
+    public class CameraWork : MonoBehaviourPun
     {
         #region Private Fields
 
@@ -58,7 +58,7 @@ namespace Photon.Pun.Demo.PunBasics
         void Start()
         {
             // Start following the target if wanted.
-            if (followOnStart)
+            if (photonView.IsMine)
             {
                 OnStartFollowing();
             }
@@ -69,10 +69,10 @@ namespace Photon.Pun.Demo.PunBasics
         {
             // The transform target may not destroy on level load,
             // so we need to cover corner cases where the Main Camera is different everytime we load a new scene, and reconnect when that happens
-            if (cameraTransform == null && isFollowing)
-            {
-                OnStartFollowing();
-            }
+            //if (cameraTransform == null && isFollowing)
+            //{
+            //    OnStartFollowing();
+            //}
 
             // only follow is explicitly declared
             if (isFollowing)

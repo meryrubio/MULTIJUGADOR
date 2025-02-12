@@ -11,6 +11,9 @@ public class ShootBomb : MonoBehaviourPun
 
     void Update()
     {
+        if (!photonView.IsMine)
+            return;
+
         if (Input.GetButtonDown("Fire1")) // Funciona en mando y ratón
         {
             Shoot();

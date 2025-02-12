@@ -256,6 +256,7 @@ GameObject:
   - component: {fileID: -7719425338489974589}
   - component: {fileID: 5394198999318421105}
   - component: {fileID: -4057347555660200276}
+  - component: {fileID: 1962905256590608128}
   m_Layer: 0
   m_Name: MERY
   m_TagString: Untagged
@@ -477,6 +478,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerNameText: {fileID: 3281234834332752262}
   BarraDeVida: {fileID: 7220541750599627250}
+--- !u!114 &1962905256590608128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5661411820815069440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 800b0282d6b2a3a46b3252d764b60275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 7
+  height: 3
+  centerOffset: {x: 0, y: 0, z: 0}
+  followOnStart: 0
+  smoothSpeed: 0.125
 --- !u!1 &6295896292431744847
 GameObject:
   m_ObjectHideFlags: 0

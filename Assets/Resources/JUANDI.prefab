@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 985022887623222044}
   - component: {fileID: 4343892113156230349}
   - component: {fileID: 5690959258449416951}
+  - component: {fileID: 2497043674726818564}
   m_Layer: 0
   m_Name: JUANDI
   m_TagString: Untagged
@@ -223,8 +224,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerNameText: {fileID: 7115608425712494796}
   BarraDeVida: {fileID: 167788309385888344}
-  maxHealth: 100
-  currentHealth: 100
+--- !u!114 &2497043674726818564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3049551339927538141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 800b0282d6b2a3a46b3252d764b60275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 7
+  height: 3
+  centerOffset: {x: 0, y: 0, z: 0}
+  followOnStart: 0
+  smoothSpeed: 0.125
 --- !u!1 &3765206390353828240
 GameObject:
   m_ObjectHideFlags: 0

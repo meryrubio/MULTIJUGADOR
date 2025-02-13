@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Com.MyCompany.MyGame;
 
 public class Health : MonoBehaviourPun, IPunObservable
 {
@@ -24,7 +25,7 @@ public class Health : MonoBehaviourPun, IPunObservable
 
     public void TakeDamage(float amount)
     {
-        //if (!photonView.IsMine) return; // Solo el jugador local puede recibir daño
+        if (!photonView.IsMine) return; // Solo el jugador local puede recibir daño
 
         currentHealth -= amount; // Reduce la salud actual
         if (currentHealth < 0) currentHealth = 0; // Asegúrate de que no sea negativa
@@ -50,8 +51,13 @@ public class Health : MonoBehaviourPun, IPunObservable
 
         // Por ejemplo, puedes desactivar el objeto del jugador
         gameObject.SetActive(false);
+        //GameManager.instance.LeaveRoom();
+        GameManager.instance.playerNames.Remove(PhotonNetwork.NickName);
+        GameManager.instance.SubstractPlayer();
 
-        SceneManager.LoadScene("Victory");
+        //if (photonView.IsMine)
+        //    PhotonNetwork.LoadLevel("Kyle Test");
+            //SceneManager.LoadScene("Kyle Test");
 
     }
 

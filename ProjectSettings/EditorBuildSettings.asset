@@ -27,6 +27,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Room for 4.unity
     guid: f53f3cf724ddc8343bd27f86cc6211fc
   - enabled: 1
+    path: Assets/Scenes/Kyle Test.unity
+    guid: f46c68c10251b6d4ca69eddbac6f592b
+  - enabled: 1
     path: Assets/Scenes/Victory.unity
     guid: a6399b8eb59c4d1499c1760f1a1f2b2c
   m_configObjects: {}

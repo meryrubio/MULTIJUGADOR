@@ -9,6 +9,7 @@ public class CharacterInstantation : MonoBehaviour
     void Start()
     {
         GameManager.instance.InstancePlayer();
+
     }
 
   

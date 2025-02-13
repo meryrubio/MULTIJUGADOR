@@ -8,6 +8,8 @@ using Photon.Pun;
 using Photon.Realtime;
 using Photon.Pun.Demo.PunBasics;
 using UnityEngine.TextCore.Text;
+using System.Collections.Generic;
+using System.Xml;
 
 namespace Com.MyCompany.MyGame
 {
@@ -17,7 +19,7 @@ namespace Com.MyCompany.MyGame
     {
         JUANDI, MERY
     }
-    public class GameManager : MonoBehaviourPunCallbacks
+    public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
 
         public static GameManager instance;
@@ -25,6 +27,9 @@ namespace Com.MyCompany.MyGame
 
         [Tooltip("The prefab to use for representing the player")]
         public GameObject[] playerPrefab;
+
+        public uint playerNumber = 1;
+        public List<string> playerNames;
 
         //[HideInInspector]
         public Characters characterType; //variable para los personajes, sea posible elegir el tipo de personaje
@@ -34,6 +39,7 @@ namespace Com.MyCompany.MyGame
             if (!instance)// si instance no tiene info
             {
                 instance = this; //si isma llega a la fiesta y ve que no hay nadie guapo isma se queda en la fiesta / instance se asigna a este objeto
+                playerNames = new List<string>();
                 DontDestroyOnLoad(gameObject);// para que no se destruya en la carga de escenas
             }
             else // si ya hay alguin mas guapo antes que isma / si instance tiene info
@@ -62,7 +68,7 @@ namespace Com.MyCompany.MyGame
         {
             yield return new WaitForSeconds(0.3f);
 
-            switch(characterType)
+            switch (characterType)
             {
                 case Characters.JUANDI:
                     PhotonNetwork.Instantiate(this.playerPrefab[0].name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
@@ -72,6 +78,15 @@ namespace Com.MyCompany.MyGame
                     break;
             }
 
+
+
+            playerNames.Clear();
+            foreach (KeyValuePair<int, Player> entry in PhotonNetwork.CurrentRoom.Players)
+            {
+                // do something with entry.Value or entry.Key
+                playerNames.Add(entry.Value.NickName);
+
+            }
 
         }
 
@@ -94,11 +109,18 @@ namespace Com.MyCompany.MyGame
             if (PhotonNetwork.IsMasterClient)
             {
                 Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient); // llamado antes de OnPlayerLeftRoom
+                playerNames.Clear();
+                foreach (KeyValuePair<int, Player> entry in PhotonNetwork.CurrentRoom.Players)
+                {
+                    // do something with entry.Value or entry.Key
+                    playerNames.Add(entry.Value.NickName);
+
+                }
 
                 LoadArena();// llamaremos a LoadArena() SOLO si somos el MasterClient usando PhotonNetwork.IsMasterClient.
             }
         }
-        
+
         public override void OnPlayerLeftRoom(Player other) //Cada vez que un jugador sale de la sala, seremos informados, y llamaremos al método LoadArena()
         {
             Debug.LogFormat("OnPlayerLeftRoom() {0}", other.NickName); // se ve cuando otro se desconecta
@@ -135,6 +157,7 @@ namespace Com.MyCompany.MyGame
                 return;
             }
             Debug.LogFormat("PhotonNetwork : Loading Level : {0}", PhotonNetwork.CurrentRoom.PlayerCount);
+            playerNumber++;
             PhotonNetwork.LoadLevel("Room for " + PhotonNetwork.CurrentRoom.PlayerCount);//Usamos PhotonNetwork.LoadLevel() para cargar el nivel que queremos
         }
 
@@ -154,6 +177,29 @@ namespace Com.MyCompany.MyGame
         {
             Debug.Log("EXIT!!");
             Application.Quit();// cierra la aplicación
+        }
+
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.IsWriting)
+            {
+                stream.SendNext(playerNumber);
+                // stream.SendNext(playerNames);
+            }
+            else if (stream.IsReading)
+            {
+                playerNumber = (uint)stream.ReceiveNext();
+                // playerNames = (List<string>)stream.ReceiveNext();
+            }
+        }
+
+        public void SubstractPlayer()
+        {
+            playerNumber--;
+            if(photonView.IsMine && playerNumber == 1)
+            {
+                PhotonNetwork.LoadLevel("Victory");
+            }
         }
     }
 

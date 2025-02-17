@@ -19,12 +19,12 @@ public class PlayerUI : MonoBehaviourPun
     {
         healthComponent = GetComponent<Health>();
 
-        maxHealth = healthComponent.maxHealth;
         // el nombre del jugador se muestre al inicio
         if (playerNameText != null)
         {
             playerNameText.text = photonView.Owner.NickName;
         }
+        maxHealth = healthComponent.maxHealth;
     }
 
     private void Update()

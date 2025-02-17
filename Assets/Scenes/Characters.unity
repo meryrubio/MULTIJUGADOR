@@ -255,7 +255,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 58461093}
   m_CullTransparentMesh: 1
---- !u!1001 &347125021
+--- !u!1001 &402217864
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -303,15 +303,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6942501799027127515, guid: 3a8114ad792fb3d4f861d397de36eb9c, type: 3}
-      propertyPath: playerPrefab
-      value: 
-      objectReference: {fileID: 3049551339927538141, guid: ee36eb0030ccbb1489928b5940058252, type: 3}
     - target: {fileID: 6976665621404233454, guid: 3a8114ad792fb3d4f861d397de36eb9c, type: 3}
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 8895790543417003356, guid: 3a8114ad792fb3d4f861d397de36eb9c, type: 3}
+    - target: {fileID: 0}
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
@@ -1241,6 +1237,6 @@ SceneRoots:
   - {fileID: 794059343}
   - {fileID: 2022445587}
   - {fileID: 603434673}
-  - {fileID: 347125021}
   - {fileID: 1240505075}
   - {fileID: 568516889}
+  - {fileID: 402217864}

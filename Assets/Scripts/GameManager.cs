@@ -40,6 +40,7 @@ namespace Com.MyCompany.MyGame
             {
                 instance = this; //si isma llega a la fiesta y ve que no hay nadie guapo isma se queda en la fiesta / instance se asigna a este objeto
                 playerNames = new List<string>();
+                playerNames.Add("");
                 DontDestroyOnLoad(gameObject);// para que no se destruya en la carga de escenas
             }
             else // si ya hay alguin mas guapo antes que isma / si instance tiene info
